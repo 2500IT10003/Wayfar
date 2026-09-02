@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TransitHub - Bus Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <div class="hero-content">
+            <h1>Myanmar domestic bus booking</h1>
+            <p>Find the best routes and cheap tickets instantly</p>
+            
+            <div class="search-card">
+                <div class="search-tabs">
+                    <a href="bus.html" class="tab active">Bus</a>
+                    <a href="flight.html" class="tab">Flight</a>
+                    <a href="train.html" class="tab">Train</a>
+                </div>
+                <div class="search-inputs">
+                <div class="input-group">
+                    <label>Start point</label>
+                    <input type="text" id="startPoint" placeholder="Enter departure city" readonly>
+                </div>
+                <div class="swap-icon" onclick="swapLocations()">⇄</div>
+                <div class="input-group">
+                    <label>Destination</label>
+                    <input type="text" id="destination" placeholder="Enter destination" readonly>
+                </div>
+                <div class="input-group">
+                    <label>Date</label>
+                    <input type="date" id="travelDate" class="date-input">
+                </div>
+                <button class="search-btn">Search</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- === Main Content with Carousel === -->
+    <main class="main-content">
+        <section class="popular-routes-section">
+            <h2>Popular bus routes</h2>
+            
+            <div class="carousel-container">
+                <!-- Previous Button -->
+                <button class="carousel-btn prev-btn" onclick="slideRoutes(-1)">&#10094;</button>
+
+                <!-- Cards Track Wrapper -->
+                <div class="routes-track-wrapper">
+                    <div class="routes-cards-grid" id="routesTrack">
+                        <!-- Route Card 1 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/pha-an.jpg');"></div>
+                            <div class="route-info blue-bg">
+                                <h3>Pha An - Taung Wine</h3>
+                                <p>From 500,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 2 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/bagan.jpg');"></div>
+                            <div class="route-info blue-bg">
+                                <h3>Mandalay - Bagan</h3>
+                                <p>From 120,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 3 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/ngapali.jpeg');"></div>
+                            <div class="route-info orange-bg">
+                                <h3>Rakhine State - Ngapali Beach</h3>
+                                <p>From 270,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 4 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/ngwe-saung.jpg');"></div>
+                            <div class="route-info khaki-bg">
+                                <h3>Ayeyarwady Region - Ngwe Saung Beach</h3>
+                                <p>From 270,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 5 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/mawlamyine.jpg');"></div>
+                            <div class="route-info blue-bg">
+                                <h3>Mon State - Mawlamyine</h3>
+                                <p>From 100,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 6 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/inle-lake.jpg');"></div>
+                            <div class="route-info blue-bg">
+                                <h3>Shan State - Inle Lake</h3>
+                                <p>From 120,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 7 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/taunggyi.jpeg');"></div>
+                            <div class="route-info orange-bg">
+                                <h3>Shan State - Taung Gyi</h3>
+                                <p>From 200,000 MMK</p>
+                            </div>
+                        </div>
+                        <!-- Route Card 8 -->
+                        <div class="route-card">
+                            <div class="route-img" style="background-image: url('./images/mandalay.jpg');"></div>
+                            <div class="route-info khaki-bg">
+                                <h3>Mandalay - Mandalay Palace</h3>
+                                <p>From 270,000 MMK</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <button class="carousel-btn next-btn" onclick="slideRoutes(1)">&#10095;</button>
+            </div>
+        </section>
+        <section class="popular-routes-section">
+            <h2>Bus stations</h2>
+            
+            <div class="stations-grid">
+                <!-- Station Card 1 -->
+                <a href="station-details.html?station=aungmingalar" class="station-card-link">
+                    <div class="route-card">
+                        <div class="route-img" style="background-image: url('./images/Aung_Mingalar_bus_station.jpg');"></div>
+                        <div class="route-info blue-bg">
+                            <h3>Aung Mingalar Bus Station</h3>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Station Card 2 -->
+                <a href="station-details.html?station=highway" class="station-card-link">
+                    <div class="route-card">
+                        <div class="route-img" style="background-image: url('./images/highway-bus-station.jpg');"></div>
+                        <div class="route-info blue-bg">
+                            <h3>Highway Bus Station</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer placeholder -->
+    <div id="footer-placeholder"></div>
+    
+    <script src="js/load-components.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let scrollAmount = 0;
+
+        function updateButtonStates() {
+            const track = document.getElementById('routesTrack');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const maxScroll = track.scrollWidth - track.clientWidth;
+
+            // Handle Previous button
+            if (scrollAmount <= 0) {
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.classList.remove('disabled');
+            }
+
+            // Handle Next button
+            if (scrollAmount >= maxScroll) {
+                nextBtn.classList.add('disabled');
+            } else {
+                nextBtn.classList.remove('disabled');
+            }
+        }
+
+        function slideRoutes(direction) {
+            const track = document.getElementById('routesTrack');
+            const singleCardWidth = track.querySelector('.route-card').offsetWidth + 20;
+            const scrollStep = singleCardWidth * 4;
+            
+            scrollAmount += direction * scrollStep;
+            const maxScroll = track.scrollWidth - track.clientWidth;
+            
+            if (scrollAmount < 0) scrollAmount = 0;
+            if (scrollAmount > maxScroll) scrollAmount = maxScroll;
+            
+            track.style.transform = `translateX(-${scrollAmount}px)`;
+            
+            // Update button states after sliding
+            updateButtonStates();
+        }
+
+        // Run once on page load to set initial state (e.g., dim the left button initially)
+        window.onload = function() {
+            updateButtonStates();
+        };
+    </script>
+
+    <!-- Location Selection Modal -->
+    <div id="locationModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Select Location</h3>
+                <button class="close-btn" onclick="closeLocationModal()">&times;</button>
+            </div>
+            <div class="city-list">
+                <div class="city-item" onclick="selectCity('Yangon')">Yangon</div>
+                <div class="city-item" onclick="selectCity('Mandalay')">Mandalay</div>
+                <div class="city-item" onclick="selectCity('Bagan')">Bagan</div>
+                <div class="city-item" onclick="selectCity('Inle Lake')">Inle Lake</div>
+                <div class="city-item" onclick="selectCity('Naypyidaw')">Naypyidaw</div>
+                <div class="city-item" onclick="selectCity('Taunggyi')">Taunggyi</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

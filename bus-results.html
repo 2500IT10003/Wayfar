@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TransitHub - Search Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="main-content">
+        <section class="results-section">
+            <div class="results-summary-card">
+                <h2 id="routeTitle">Loading routes...</h2>
+                <p id="dateDisplay"></p>
+                <div class="result-actions">
+                    <a href="bus.html" class="back-home-btn">← Back to Home</a>
+                    <a href="bus.html" class="modify-search-btn">Modify Search</a>
+                </div>
+            </div>
+
+            <div class="bus-list-container">
+                <!-- Bus Result 1 -->
+                <div class="bus-result-card">
+                    <div class="bus-img" style="background-image: url('./images/mandalar-min.png');"></div>
+                    <div class="bus-info">
+                        <h3>Mandalar Min Express</h3>
+                        <p class="bus-type">VIP 2+1 Seater</p>
+                        <p class="departure-time">Departure: 08:00 AM</p>
+                    </div>
+                    <div class="bus-pricing">
+                        <span class="price">45,000 MMK</span>
+                        <button class="book-now-btn">Select Seat</button>
+                    </div>
+                </div>
+
+                <!-- Bus Result 2 -->
+                <div class="bus-result-card">
+                    <div class="bus-img" style="background-image: url('./images/shwe-mandalar.jpg');"></div>
+                    <div class="bus-info">
+                        <h3>Shwe Mandalar Express</h3>
+                        <p class="bus-type">Elite Air Con</p>
+                        <p class="departure-time">Departure: 09:30 PM</p>
+                    </div>
+                    <div class="bus-pricing">
+                        <span class="price">40,000 MMK</span>
+                        <button class="book-now-btn">Select Seat</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/load-components.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Extract parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const start = urlParams.get('start');
+        const dest = urlParams.get('dest');
+        const date = urlParams.get('date');
+
+        // Populate the UI with search parameters if they exist
+        if (start && dest && date) {
+            document.getElementById('routeTitle').innerText = `${start} → ${dest}`;
+            document.getElementById('dateDisplay').innerText = `Travel Date: ${date}`;
+        } else {
+            document.getElementById('routeTitle').innerText = 'All Available Routes';
+            document.getElementById('dateDisplay').innerText = 'No specific date selected.';
+        }
+    </script>
+
+    <!-- Seat Selection & Booking Modal -->
+    <div id="seatModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content seat-modal-content">
+            <div class="modal-header">
+                <h3 id="seatModalTitle">Select Your Seat</h3>
+                <button class="close-btn" onclick="closeSeatModal()">&times;</button>
+            </div>
+            
+            <!-- View 1: Seat Map -->
+            <div id="seatSelectionView" class="modal-body">
+                <div class="bus-layout">
+                    <div class="driver-seat">Driver Area</div>
+                    <div class="seats-grid">
+                        <div class="seat available" onclick="toggleSeat(this, 'A1')">A1</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'A2')">A2</div>
+                        <div class="seat booked">A3</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'A4')">A4</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'B1')">B1</div>
+                        <div class="seat booked">B2</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'B3')">B3</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'B4')">B4</div>
+                    </div>
+                </div>
+                <button id="proceedBtn" class="action-btn" onclick="showPassengerForm()" disabled>Proceed to Details</button>
+            </div>
+
+            <!-- View 2: Passenger Details Form -->
+            <div id="passengerFormView" class="modal-body" style="display: none;">
+                <p class="selected-summary">Selected Seat: <strong id="displaySelectedSeat"></strong></p>
+                <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                    <div class="input-group-modal">
+                        <label>Full Name</label>
+                        <input type="text" id="passengerName" placeholder="Enter passenger name" required>
+                    </div>
+                    <div class="input-group-modal">
+                        <label>Phone Number</label>
+                        <input type="tel" id="passengerPhone" placeholder="Enter phone number" required>
+                    </div>
+                    <button type="submit" class="action-btn">Confirm Booking</button>
+                </form>
+            </div>
+
+            <!-- View 3: Success Message -->
+            <div id="successView" class="modal-body" style="display: none; text-align: center;">
+                <div class="success-icon" style="font-size: 48px; color: #28a745; margin-bottom: 10px;">✔</div>
+                <h3 style="color: #28a745; margin-bottom: 10px;">Booking Successful!</h3>
+                <p id="successDetails" style="color: #666; margin-bottom: 20px;"></p>
+                <button class="action-btn" onclick="closeSeatModal()">Done</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

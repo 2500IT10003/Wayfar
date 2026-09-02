@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Station Details - TransitHub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .station-detail-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .station-hero-img {
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .station-info-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .station-info-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="station-detail-container">
+        <!-- Station Title -->
+        <h1 id="station-title">Loading Station...</h1>
+        
+        <!-- Station Photo -->
+        <div id="station-img" class="station-hero-img"></div>
+
+        <!-- Details Box -->
+        <div class="station-info-box">
+            <h3>About this station</h3>
+            <p id="station-desc"></p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <p><strong>Address:</strong> <span id="station-address"></span></p>
+            <p><strong>Phone:</strong> <span id="station-phone"></span></p>
+        </div>
+
+        <!-- Google Map Embed -->
+        <div class="map-container">
+            <iframe id="station-map" src="" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="bus.html" style="text-decoration: none; color: #0066cc;">&larr; Back to Bus Home</a>
+        </div>
+    </main>
+
+    <!-- Footer placeholder -->
+    <div id="footer-placeholder"></div>
+    
+    <script src="js/load-components.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Database of station details
+        const stationsData = {
+            'aungmingalar': {
+                name: 'Aung Mingalar Bus Station',
+                desc: 'The largest and busiest highway bus station in Yangon, handling routes heading north and central towards Mandalay, Bagan, Inle Lake, and Naypyidaw.',
+                image: './images/Aung_Mingalar_bus_station.jpg',
+                address: 'Thumingalar Street, North Okkalapa Township, Yangon, Myanmar',
+                phone: '+95 1 969 9999',
+                mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3818.123456!2d96.123456!3d16.888888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zVuG7mW4gdOG6oWkgIEF1bmcgTWluZ2FsYXIgQnVzIFN0YXRpb24!5e0!3m2!1sen!2smm!4v1234567890'
+            },
+            'highway': {
+                name: 'Highway Bus Station',
+                desc: 'A major transit hub providing connections for long-distance regional buses and express lines across various states and divisions.',
+                image: './images/highway-bus-station.jpg',
+                address: 'Main Highway Road, Myanmar',
+                phone: '+95 1 555 1234',
+                mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3818.123456!2d96.123456!3d16.888888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zSGlnaHdheSBCdXMgU3RhdGlvbg!5e0!3m2!1sen!2smm!4v1234567890'
+            }
+        };
+
+        // Read parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const stationKey = urlParams.get('station');
+        const station = stationsData[stationKey];
+
+        if (station) {
+            document.getElementById('station-title').innerText = station.name;
+            document.getElementById('station-desc').innerText = station.desc;
+            document.getElementById('station-img').style.backgroundImage = `url('${station.image}')`;
+            document.getElementById('station-address').innerText = station.address;
+            document.getElementById('station-phone').innerText = station.phone;
+            document.getElementById('station-map').src = station.mapUrl;
+            document.title = `${station.name} - TransitHub`;
+        } else {
+            document.querySelector('.station-detail-container').innerHTML = '<h1>Station Not Found</h1><p>Sorry, the station you are looking for does not exist.</p><a href="bus.html">&larr; Back to Home</a>';
+        }
+    </script>
+</body>
+</html>
