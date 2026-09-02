@@ -55,6 +55,62 @@ document.addEventListener("click", (e) => {
     }
 });
 
+// Handle phone number login submission
+document.addEventListener('click', function(event) {
+    if (event.target && event.target.classList.contains('modal-login-btn')) {
+        const phoneInput = document.getElementById('loginPhone');
+        if (!phoneInput || !phoneInput.value.trim()) {
+            alert('Please enter your phone number.');
+            return;
+        }
+
+        const fullPhone = `+95 ${phoneInput.value.trim()}`;
+        
+        // Save to localStorage
+        localStorage.setItem('transitHubUser', JSON.stringify({ user: fullPhone }));
+        
+        // Close modal and refresh navbar state
+        document.getElementById('loginModal').style.display = 'none';
+        updateNavbarAuthState();
+        alert(`Successfully logged in as ${fullPhone}`);
+    }
+
+    // Handle Google login simulation button
+    if (event.target && (event.target.classList.contains('google-login-btn') || event.target.closest('.google-login-btn'))) {
+        localStorage.setItem('transitHubUser', JSON.stringify({ user: 'Google User' }));
+        
+        document.getElementById('loginModal').style.display = 'none';
+        updateNavbarAuthState();
+        alert('Successfully logged in with Google!');
+    }
+});
+
+
+// Global function so component loaders can call it immediately
+window.updateNavbarAuthState = function() {
+    const savedUser = localStorage.getItem('transitHubUser');
+    const loginBtn = document.getElementById('loginBtn') || document.querySelector('.login-btn');
+
+    if (savedUser && loginBtn) {
+        const userData = JSON.parse(savedUser);
+        loginBtn.innerText = 'My Account';
+        
+        // Let them log out if they click "My Account"
+        loginBtn.onclick = (e) => {
+            e.preventDefault();
+            if (confirm(`Logged in as: ${userData.user}\nDo you want to log out?`)) {
+                localStorage.removeItem('transitHubUser');
+                location.reload();
+            }
+        };
+    }
+};
+
+// Also run it on standard DOM load just in case pages have a static header
+document.addEventListener('DOMContentLoaded', () => {
+    window.updateNavbarAuthState();
+});
+
 let activeInputId = null;
 
 // Listen for clicks anywhere on the document (handles dynamically loaded inputs)
