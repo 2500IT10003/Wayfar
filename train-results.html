@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitHub - Train Search Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="main-content">
+        <section class="results-section">
+            <div class="results-summary-card">
+                <h2 id="routeTitle">Loading trains...</h2>
+                <p id="dateDisplay"></p>
+                <div class="result-actions">
+                    <a href="train.html" class="back-home-btn">&larr; Back to Home</a>
+                    <a href="train.html" class="modify-search-btn">Modify Search</a>
+                </div>
+            </div>
+
+            <div class="train-list-container">
+                <!-- Train Item 1 -->
+                <div class="train-result-card">
+                    <div class="train-card-image" style="background-image: url('./images/mr-express.png');">
+                        <span class="train-badge">MR EXPRESS</span>
+                    </div>
+                    <div class="train-card-content">
+                        <div class="train-info">
+                            <h3>Myanmar Railways (Express #11)</h3>
+                            <p class="train-type">Upper Class Sleeper &bull; Direct (12h 30m)</p>
+                            <p class="departure-time">Departure: 05:00 PM</p>
+                        </div>
+                        <div class="train-pricing">
+                            <span class="price">45,000 MMK</span>
+                            <button type="button" class="book-now-btn" onclick="openTrainModal('Express #11', '45,000 MMK')">Select Seat</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Train Item 2 -->
+                <div class="train-result-card">
+                    <div class="train-card-image" style="background-image: url('./images/mr.jpeg');">
+                        <span class="train-badge">MR ORDINARY</span>
+                    </div>
+                    <div class="train-card-content">
+                        <div class="train-info">
+                            <h3>Myanmar Railways (Ordinary #03)</h3>
+                            <p class="train-type">First Class Seats &bull; Direct (14h 00m)</p>
+                            <p class="departure-time">Departure: 08:00 PM</p>
+                        </div>
+                        <div class="train-pricing">
+                            <span class="price">25,000 MMK</span>
+                            <button type="button" class="book-now-btn" onclick="openTrainModal('Ordinary #03', '25,000 MMK')">Select Seat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Train Seat Selection Modal -->
+    <div id="seatModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content seat-modal-content">
+            <div class="modal-header">
+                <h3 id="seatModalTitle">Select Carriage Seat</h3>
+                <button type="button" class="close-btn" onclick="closeSeatModal()">&times;</button>
+            </div>
+            
+            <div id="seatSelectionView" class="modal-body">
+                <div class="cabin-layout"><div class="cockpit-indicator">Carriage 02 / Locomotive Front</div>
+                    <div class="seats-grid">
+                        <div class="seat available" onclick="toggleSeat(this, 'Carriage 2 - Seat 01')">01</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'Carriage 2 - Seat 02')">02</div>
+                        <div class="seat booked">03</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'Carriage 2 - Seat 04')">04</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'Carriage 2 - Seat 05')">05</div>
+                        <div class="seat booked">06</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'Carriage 2 - Seat 07')">07</div>
+                        <div class="seat available" onclick="toggleSeat(this, 'Carriage 2 - Seat 08')">08</div>
+                    </div>
+                </div>
+                <button type="button" id="proceedBtn" class="action-btn" onclick="showPassengerForm()" disabled>Proceed to Details</button>
+            </div>
+
+            <div id="passengerFormView" class="modal-body" style="display: none;">
+                <p class="selected-summary">Selected Train Seat: <strong id="displaySelectedSeat"></strong></p>
+                <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                    <div class="input-group-modal">
+                        <label for="passengerName">Passenger Full Name</label>
+                        <input type="text" id="passengerName" placeholder="Enter full name" required>
+                    </div>
+                    <div class="input-group-modal">
+                        <label for="passengerId">NIRC / Passport Number</label>
+                        <input type="text" id="passengerId" placeholder="Enter ID number" required>
+                    </div>
+                    <div class="input-group-modal">
+                        <label for="passengerPhone">Phone Number</label>
+                        <input type="tel" id="passengerPhone" placeholder="Enter contact phone" required>
+                    </div>
+                    <button type="submit" class="action-btn">Confirm Train Booking</button>
+                </form>
+            </div>
+
+            <div id="successView" class="modal-body" style="display: none; text-align: center;">
+                <div class="success-icon" style="font-size: 48px; color: #28a745; margin-bottom: 10px;">✔</div>
+                <h3 style="color: #28a745; margin-bottom: 10px;">Train Reservation Confirmed!</h3>
+                <p id="successDetails" style="color: #666; margin-bottom: 20px;"></p>
+                <button type="button" class="action-btn" onclick="closeSeatModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/load-components.js"></script>
+    <script src="js/main.js"></script>
+    <script>const urlParams = new URLSearchParams(window.location.search);
+        const start = urlParams.get('start');
+        const dest = urlParams.get('dest');
+        const date = urlParams.get('date');
+
+        if (start && dest) {
+            document.getElementById('routeTitle').innerText = `${start} → ${dest}`;
+            document.getElementById('dateDisplay').innerText = date ? `Train Travel Date: ${date}` : 'No specific date selected.';
+        } else {
+            document.getElementById('routeTitle').innerText = 'All Available Train Routes';
+            document.getElementById('dateDisplay').innerText = 'No search criteria provided.';
+        }
+
+        let selectedSeatCode = '';
+
+        function openTrainModal(trainName) {
+            document.getElementById('seatModalTitle').innerText = `Select Seat - ${trainName}`;
+            document.getElementById('seatModal').style.display = 'flex';
+        }
+
+        function closeSeatModal() {
+            document.getElementById('seatModal').style.display = 'none';
+            resetModalViews();
+        }
+
+        function toggleSeat(element, seatCode) {
+            document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedSeatCode = seatCode;
+            document.getElementById('proceedBtn').disabled = false;
+        }
+
+        function showPassengerForm() {
+            document.getElementById('seatSelectionView').style.display = 'none';
+            document.getElementById('passengerFormView').style.display = 'block';
+            document.getElementById('displaySelectedSeat').innerText = selectedSeatCode;
+        }
+
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('passengerName').value;
+            document.getElementById('passengerFormView').style.display = 'none';
+            document.getElementById('successView').style.display = 'block';
+            document.getElementById('successDetails').innerText = `Train ticket booked for ${name} (${selectedSeatCode}).`;
+        }
+
+        function resetModalViews() {
+            document.getElementById('seatSelectionView').style.display = 'block';
+            document.getElementById('passengerFormView').style.display = 'none';
+            document.getElementById('successView').style.display = 'none';
+            document.getElementById('proceedBtn').disabled = true;
+            document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>

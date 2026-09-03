@@ -4,12 +4,73 @@
     <meta charset="UTF-8">
     <title>TransitHub - Train Booking</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Exact Bus-style Modal Overlay & Card Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #111111;
+            margin: 0;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #333;
+            cursor: pointer;
+            padding: 0;
+        }
+        .station-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .station-list li {
+            font-size: 16px;
+            color: #111111;
+            cursor: pointer;
+            padding: 4px 0;
+            transition: color 0.2s ease;
+        }
+        .station-list li:hover {
+            color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header placeholder (Loads header & login modal automatically) -->
     <div id="header-placeholder"></div>
 
-    <!-- Hero Banner with Train Tab Active -->
     <div class="hero-banner">
         <div class="hero-content">
             <h1>Myanmar railway and train booking</h1>
@@ -23,34 +84,214 @@
                 </div>
                 <div class="search-inputs">
                     <div class="input-group">
-                        <label>Start point</label>
-                        <input type="text" placeholder="Enter departure station/city">
+                        <label for="startPoint">Start point</label>
+                        <input type="text" id="startPoint" placeholder="Enter departure city" readonly style="cursor: pointer;">
                     </div>
-                    <div class="swap-icon">⇄</div>
+                    <div class="swap-icon" id="train-swap-btn" style="cursor: pointer;">⇄</div>
                     <div class="input-group">
-                        <label>Destination</label>
-                        <input type="text" placeholder="Enter arrival station/city">
+                        <label for="destination">Destination</label>
+                        <input type="text" id="destination" placeholder="Enter arrival city" readonly style="cursor: pointer;">
                     </div>
                     <div class="input-group">
-                        <label>Date</label>
-                        <input type="date">
+                        <label for="travelDate">Date</label>
+                        <input type="date" id="travelDate">
                     </div>
-                    <button class="search-btn">Search</button>
+                    <button class="search-btn" type="button">Search</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- === Main Content (Custom per page) === -->
     <main class="main-content">
-        <!-- Team member can add train-specific sections, schedules, or cards here -->
+        <h2>Train ticket prices for popular routes</h2>
+        <p style="color: #666; margin-bottom: 20px;">
+            Select the options to view prices between classes: upper class, first class, and ordinary class.
+        </p>
+
+        <div class="filter-container">
+            <button class="tab-btn active" data-filter="from-yangon">From Yangon</button>
+            <button class="tab-btn" data-filter="arriving-yangon">Arriving In Yangon</button>
+            <button class="tab-btn" data-filter="central">Central</button>
+            <button class="tab-btn" data-filter="northern">Northern</button>
+            <button class="tab-btn express-btn" data-filter="express">⭐ Express Trains</button>
+        </div>
+
+        <div class="routes-grid">
+            <div class="ticket-card voucher-ticket" data-category="from-yangon express">
+                <div>
+                    <h3>Yangon → Mandalay</h3>
+                    <p>From <strong style="color: #0066cc;">25,000 MMK</strong></p>
+                </div>
+                <button class="book-btn">Book a ticket</button>
+            </div>
+
+            <div class="ticket-card voucher-ticket" data-category="from-yangon northern">
+                <div>
+                    <h3>Yangon → Bagan</h3>
+                    <p>From <strong style="color: #0066cc;">28,000 MMK</strong></p>
+                </div>
+                <button class="book-btn">Book a ticket</button>
+            </div>
+
+            <div class="ticket-card voucher-ticket" data-category="from-yangon northern">
+                <div>
+                    <h3>Yangon → Pyin Oo Lwin</h3>
+                    <p>From <strong style="color: #0066cc;">32,000 MMK</strong></p>
+                </div>
+                <button class="book-btn">Book a ticket</button>
+            </div>
+
+            <div class="ticket-card voucher-ticket" data-category="from-yangon central">
+                <div>
+                    <h3>Yangon → Taungoo</h3>
+                    <p>From <strong style="color: #0066cc;">15,000 MMK</strong></p>
+                </div>
+                <button class="book-btn">Book a ticket</button>
+            </div>
+
+            <div class="ticket-card voucher-ticket" data-category="from-yangon central">
+                <div>
+                    <h3>Yangon → Naypyidaw</h3>
+                    <p>From <strong style="color: #0066cc;">22,000 MMK</strong></p>
+                </div>
+                <button class="book-btn">Book a ticket</button>
+            </div>
+
+            <div class="ticket-card voucher-ticket" data-category="arriving-yangon">
+                <div>
+                    <h3>Mandalay → Yangon</h3>
+                    <p>From <strong style="color: #0066cc;">25,000 MMK</strong></p>
+                </div>
+                <button class="book-btn">Book a ticket</button>
+            </div>
+        </div>
     </main>
 
-    <!-- Footer placeholder (Loads shared footer and destination links) -->
     <div id="footer-placeholder"></div>
     
-    <!-- Scripts -->
     <script src="js/load-components.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- Clean Bus-Style Centered City Selection Modal for Train -->
+    <div id="station-picker-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-title-heading">Select Departure City</h3>
+                <button id="close-station-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul id="station-list" class="station-list">
+                    <li data-value="Yangon">Yangon</li>
+                    <li data-value="Mandalay">Mandalay</li>
+                    <li data-value="Bagan">Bagan</li>
+                    <li data-value="Inle Lake">Inle Lake</li>
+                    <li data-value="Naypyidaw">Naypyidaw</li>
+                    <li data-value="Taunggyi">Taunggyi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stationModal = document.getElementById('station-picker-modal');
+            const closeStationModalBtn = document.getElementById('close-station-modal');
+            const stationList = document.getElementById('station-list');
+            const modalTitleHeading = document.getElementById('modal-title-heading');
+            let activeInputTarget = null;
+
+            const trainOrigin = document.getElementById('train-origin');
+            const trainDestination = document.getElementById('train-destination');
+
+            if (trainOrigin) {
+                trainOrigin.addEventListener('click', function () {
+                    activeInputTarget = this;
+                    modalTitleHeading.textContent = 'Select Departure City';
+                    stationModal.style.display = 'flex';
+                });
+            }
+
+            if (trainDestination) {
+                trainDestination.addEventListener('click', function () {
+                    activeInputTarget = this;
+                    modalTitleHeading.textContent = 'Select Destination City';
+                    stationModal.style.display = 'flex';
+                });
+            }
+
+            if (closeStationModalBtn) {
+                closeStationModalBtn.addEventListener('click', () => {
+                    stationModal.style.display = 'none';
+                });
+            }
+
+            stationModal.addEventListener('click', (e) => {
+                if (e.target === stationModal) {
+                    stationModal.style.display = 'none';
+                }
+            });
+
+            if (stationList) {
+                stationList.addEventListener('click', function (e) {
+                    if (e.target.tagName === 'LI') {
+                        const val = e.target.getAttribute('data-value');
+                        if (activeInputTarget) {
+                            activeInputTarget.value = val;
+                        }
+                        stationModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // Train Filters Interactivity
+            const filterButtons = document.querySelectorAll('.filter-container .tab-btn');
+            const routeCards = document.querySelectorAll('.routes-grid .ticket-card');
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+
+                    routeCards.forEach(card => {
+                        const categories = card.getAttribute('data-category') || '';
+                        if (filter === 'express') {
+                            card.style.display = categories.includes('express') ? 'flex' : 'none';
+                        } else if (filter === 'from-yangon') {
+                            card.style.display = categories.includes('from-yangon') ? 'flex' : 'none';
+                        } else if (filter === 'arriving-yangon') {
+                            card.style.display = categories.includes('arriving-yangon') ? 'flex' : 'none';
+                        } else if (filter === 'central') {
+                            card.style.display = categories.includes('central') ? 'flex' : 'none';
+                        } else if (filter === 'northern') {
+                            card.style.display = categories.includes('northern') ? 'flex' : 'none';
+                        } else {
+                            card.style.display = 'flex';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <!-- Location Modal for Train -->
+    <div id="locationModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Select Location</h3>
+                <button class="close-btn" onclick="closeLocationModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul class="city-list">
+                    <li onclick="selectCity('Yangon')">Yangon</li>
+                    <li onclick="selectCity('Mandalay')">Mandalay</li>
+                    <li onclick="selectCity('Naypyidaw')">Bagan</li>
+                    <li onclick="selectCity('Inle Lake')">Inle Lake</li>
+                    <li onclick="selectCity('Naypyidaw')">Naypyidaw</li>
+                    <li onclick="selectCity('Taunggyi')">Taunggyi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
